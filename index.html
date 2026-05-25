@@ -682,14 +682,21 @@
 
     <!-- Step 5: Position -->
     <div class="step">
-      <div class="step-label"><span class="step-num">5</span> موقع النص (في الأسفل)</div>
+      <div class="step-label"><span class="step-num">5</span> موقع النص</div>
+      <span class="control-label">عمودياً</span>
+      <div class="position-grid" style="margin-bottom: 12px;">
+        <button class="pos-btn" data-vpos="top">أعلى ⬆</button>
+        <button class="pos-btn" data-vpos="middle">وسط ⬌</button>
+        <button class="pos-btn active" data-vpos="bottom">أسفل ⬇</button>
+      </div>
+      <span class="control-label">أفقياً</span>
       <div class="position-grid">
         <button class="pos-btn" data-pos="right">يمين</button>
         <button class="pos-btn active" data-pos="center">وسط</button>
         <button class="pos-btn" data-pos="left">يسار</button>
       </div>
-      <div style="margin-top: 12px;">
-        <span class="control-label">المسافة من الأسفل</span>
+      <div style="margin-top: 12px;" id="distance-row">
+        <span class="control-label" id="distance-label">المسافة من الأسفل</span>
         <div class="slider-row">
           <input type="range" id="bottom-slider" min="20" max="200" value="60">
           <span class="slider-value" id="bottom-value">60</span>
@@ -750,6 +757,7 @@
     color: '#d4a84b',
     size: 38,
     position: 'center',
+    vposition: 'bottom',
     bottom: 60,
     bg: 'none'
   };
@@ -843,12 +851,35 @@
     render();
   });
 
-  // Position buttons
+  // Position buttons (horizontal)
   document.querySelectorAll('[data-pos]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('[data-pos]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.position = btn.dataset.pos;
+      render();
+    });
+  });
+
+  // Vertical position buttons
+  const distanceLabel = document.getElementById('distance-label');
+  const distanceRow = document.getElementById('distance-row');
+  document.querySelectorAll('[data-vpos]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-vpos]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.vposition = btn.dataset.vpos;
+
+      if (state.vposition === 'top') {
+        distanceLabel.textContent = 'المسافة من الأعلى';
+        distanceRow.style.display = 'block';
+      } else if (state.vposition === 'bottom') {
+        distanceLabel.textContent = 'المسافة من الأسفل';
+        distanceRow.style.display = 'block';
+      } else {
+        // الوسط - إخفاء الـ slider
+        distanceRow.style.display = 'none';
+      }
       render();
     });
   });
@@ -887,8 +918,18 @@
     const lineHeight = fontSize * 1.4;
     const totalHeight = lines.length * lineHeight;
 
-    // Calculate Y position (from bottom)
-    const baseY = canvas.height - bottomPos - totalHeight + lineHeight;
+    // Calculate Y position based on vertical alignment
+    let baseY;
+    if (state.vposition === 'top') {
+      // من الأعلى
+      baseY = bottomPos + lineHeight;
+    } else if (state.vposition === 'middle') {
+      // في الوسط تماماً
+      baseY = (canvas.height / 2) - (totalHeight / 2) + lineHeight;
+    } else {
+      // من الأسفل
+      baseY = canvas.height - bottomPos - totalHeight + lineHeight;
+    }
 
     // Calculate X position based on alignment
     let textX;
@@ -910,19 +951,46 @@
       const barY = baseY - lineHeight + (barPadding / 2);
       const barHeight = totalHeight + barPadding;
 
-      if (state.bg === 'dark') {
-        const grad = ctx.createLinearGradient(0, barY, 0, barY + barHeight);
-        grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.5)');
-        grad.addColorStop(1, 'rgba(0, 0, 0, 0.75)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, barY, canvas.width, barHeight + bottomPos);
-      } else if (state.bg === 'light') {
-        const grad = ctx.createLinearGradient(0, barY, 0, barY + barHeight);
-        grad.addColorStop(0, 'rgba(255, 255, 255, 0)');
-        grad.addColorStop(0.3, 'rgba(255, 255, 255, 0.6)');
-        grad.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
-        ctx.fillStyle = grad;
+      if (state.vposition === 'top') {
+        // التدرج من الأعلى للأسفل
+        const fillHeight = barY + barHeight;
+        if (state.bg === 'dark') {
+          const grad = ctx.createLinearGradient(0, 0, 0, fillHeight);
+          grad.addColorStop(0, 'rgba(0, 0, 0, 0.75)');
+          grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.5)');
+          grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          ctx.fillStyle = grad;
+        } else {
+          const grad = ctx.createLinearGradient(0, 0, 0, fillHeight);
+          grad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+          grad.addColorStop(0.7, 'rgba(255, 255, 255, 0.6)');
+          grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          ctx.fillStyle = grad;
+        }
+        ctx.fillRect(0, 0, canvas.width, fillHeight);
+      } else if (state.vposition === 'middle') {
+        // شريط في الوسط - تدرج من الجانبين
+        if (state.bg === 'dark') {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+        } else {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+        }
+        ctx.fillRect(0, barY, canvas.width, barHeight);
+      } else {
+        // التدرج من الأسفل للأعلى
+        if (state.bg === 'dark') {
+          const grad = ctx.createLinearGradient(0, barY, 0, barY + barHeight);
+          grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+          grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.5)');
+          grad.addColorStop(1, 'rgba(0, 0, 0, 0.75)');
+          ctx.fillStyle = grad;
+        } else {
+          const grad = ctx.createLinearGradient(0, barY, 0, barY + barHeight);
+          grad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+          grad.addColorStop(0.3, 'rgba(255, 255, 255, 0.6)');
+          grad.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
+          ctx.fillStyle = grad;
+        }
         ctx.fillRect(0, barY, canvas.width, barHeight + bottomPos);
       }
     }
