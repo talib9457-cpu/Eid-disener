@@ -273,22 +273,32 @@
   .font-chip.f-lateef { font-family: 'Lateef', serif; font-size: 18px; }
   /* Color swatches */
   .color-swatches {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    padding: 10px;
+    background: rgba(13, 74, 63, 0.03);
+    border-radius: 10px;
+    border: 1px solid var(--border);
   }
   .swatch {
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    aspect-ratio: 1;
     border-radius: 8px;
     cursor: pointer;
     border: 2px solid transparent;
     transition: all 0.2s;
     position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .swatch:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   }
   .swatch.active {
     border-color: var(--primary);
     transform: scale(1.1);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--primary);
   }
   .swatch::after {
     content: '';
@@ -296,6 +306,38 @@
     inset: 2px;
     border-radius: 5px;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+    pointer-events: none;
+  }
+  .custom-swatch {
+    background: conic-gradient(from 0deg, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #0066ff, #9900ff, #ff0099, #ff0000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .custom-swatch input[type="color"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+  .custom-icon {
+    background: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 1;
   }
   /* Slider */
   .slider-row {
@@ -582,14 +624,51 @@
     <div class="step">
       <div class="step-label"><span class="step-num">4</span> لون النص وحجمه</div>
       <div style="margin-bottom: 12px;">
-        <span class="control-label">اللون</span>
+        <span class="control-label">اللون (24 لون + لون مخصص)</span>
         <div class="color-swatches" id="color-swatches">
-          <div class="swatch active" style="background: #d4a84b" data-color="#d4a84b"></div>
-          <div class="swatch" style="background: #ffffff" data-color="#ffffff"></div>
-          <div class="swatch" style="background: #f4d27a" data-color="#f4d27a"></div>
-          <div class="swatch" style="background: #0d4a3f" data-color="#0d4a3f"></div>
-          <div class="swatch" style="background: #1a2e2a" data-color="#1a2e2a"></div>
-          <div class="swatch" style="background: #c9a961" data-color="#c9a961"></div>
+          <!-- ذهبي وأصفر -->
+          <div class="swatch active" style="background: #d4a84b" data-color="#d4a84b" title="ذهبي كلاسيكي"></div>
+          <div class="swatch" style="background: #f4d27a" data-color="#f4d27a" title="ذهبي فاتح"></div>
+          <div class="swatch" style="background: #c9a961" data-color="#c9a961" title="ذهبي ناعم"></div>
+          <div class="swatch" style="background: #b8860b" data-color="#b8860b" title="ذهبي داكن"></div>
+          <div class="swatch" style="background: #ffd700" data-color="#ffd700" title="أصفر ذهبي"></div>
+          <div class="swatch" style="background: #fff8dc" data-color="#fff8dc" title="عاجي"></div>
+
+          <!-- أبيض ورمادي -->
+          <div class="swatch" style="background: #ffffff" data-color="#ffffff" title="أبيض"></div>
+          <div class="swatch" style="background: #f5f5f5" data-color="#f5f5f5" title="أبيض ناعم"></div>
+          <div class="swatch" style="background: #d3d3d3" data-color="#d3d3d3" title="رمادي فاتح"></div>
+          <div class="swatch" style="background: #808080" data-color="#808080" title="رمادي"></div>
+
+          <!-- أسود وداكن -->
+          <div class="swatch" style="background: #000000" data-color="#000000" title="أسود"></div>
+          <div class="swatch" style="background: #1a2e2a" data-color="#1a2e2a" title="أسود مخضر"></div>
+
+          <!-- أخضر -->
+          <div class="swatch" style="background: #0d4a3f" data-color="#0d4a3f" title="أخضر هيئة"></div>
+          <div class="swatch" style="background: #1d6b5e" data-color="#1d6b5e" title="أخضر متوسط"></div>
+          <div class="swatch" style="background: #2e8b57" data-color="#2e8b57" title="أخضر زمردي"></div>
+          <div class="swatch" style="background: #355e3b" data-color="#355e3b" title="أخضر زيتي"></div>
+
+          <!-- أزرق -->
+          <div class="swatch" style="background: #1e3a5f" data-color="#1e3a5f" title="أزرق ملكي"></div>
+          <div class="swatch" style="background: #4682b4" data-color="#4682b4" title="أزرق فولاذي"></div>
+          <div class="swatch" style="background: #87ceeb" data-color="#87ceeb" title="أزرق سماوي"></div>
+
+          <!-- أحمر وعنابي -->
+          <div class="swatch" style="background: #8b0000" data-color="#8b0000" title="أحمر داكن"></div>
+          <div class="swatch" style="background: #722f37" data-color="#722f37" title="عنابي"></div>
+          <div class="swatch" style="background: #b22222" data-color="#b22222" title="أحمر طوبي"></div>
+
+          <!-- بنفسجي وبني -->
+          <div class="swatch" style="background: #4b0082" data-color="#4b0082" title="بنفسجي"></div>
+          <div class="swatch" style="background: #654321" data-color="#654321" title="بني داكن"></div>
+
+          <!-- لون مخصص -->
+          <label class="swatch custom-swatch" for="custom-color" title="اختر لون مخصص">
+            <input type="color" id="custom-color" value="#d4a84b">
+            <span class="custom-icon">+</span>
+          </label>
         </div>
       </div>
       <div>
@@ -732,13 +811,22 @@
   });
 
   // Color swatches
-  document.querySelectorAll('.swatch').forEach(sw => {
+  document.querySelectorAll('.swatch[data-color]').forEach(sw => {
     sw.addEventListener('click', () => {
       document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
       sw.classList.add('active');
       state.color = sw.dataset.color;
       render();
     });
+  });
+
+  // Custom color picker
+  const customColor = document.getElementById('custom-color');
+  customColor.addEventListener('input', (e) => {
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    document.querySelector('.custom-swatch').classList.add('active');
+    state.color = e.target.value;
+    render();
   });
 
   // Size slider
