@@ -701,10 +701,11 @@
     <div class="step">
       <div class="step-label"><span class="step-num">4</span> لون النص وحجمه</div>
       <div style="margin-bottom: 12px;">
-        <span class="control-label">اللون (24 لون + لون مخصص)</span>
+        <span class="control-label">اللون (الذهبي افتراضي ⭐)</span>
         <div class="color-swatches" id="color-swatches">
-          <!-- ذهبي وأصفر -->
-          <div class="swatch active" style="background: #d4a84b" data-color="#d4a84b" title="ذهبي كلاسيكي"></div>
+          <!-- الذهبيات أولاً -->
+          <div class="swatch active" style="background: linear-gradient(135deg, #d4a84b 0%, #f4d27a 50%, #b8860b 100%)" data-color="gold-gradient" title="ذهبي متدرج فاخر ⭐"></div>
+          <div class="swatch" style="background: #d4a84b" data-color="#d4a84b" title="ذهبي كلاسيكي"></div>
           <div class="swatch" style="background: #f4d27a" data-color="#f4d27a" title="ذهبي فاتح"></div>
           <div class="swatch" style="background: #c9a961" data-color="#c9a961" title="ذهبي ناعم"></div>
           <div class="swatch" style="background: #b8860b" data-color="#b8860b" title="ذهبي داكن"></div>
@@ -730,7 +731,6 @@
           <!-- أزرق -->
           <div class="swatch" style="background: #1e3a5f" data-color="#1e3a5f" title="أزرق ملكي"></div>
           <div class="swatch" style="background: #4682b4" data-color="#4682b4" title="أزرق فولاذي"></div>
-          <div class="swatch" style="background: #87ceeb" data-color="#87ceeb" title="أزرق سماوي"></div>
 
           <!-- أحمر وعنابي -->
           <div class="swatch" style="background: #8b0000" data-color="#8b0000" title="أحمر داكن"></div>
@@ -832,7 +832,7 @@
     text: '',
     font: 'Readex Pro',
     fontWeight: '500',
-    color: '#d4a84b',
+    color: 'gold-gradient',
     size: 38,
     position: 'center',
     vposition: 'bottom',
@@ -1123,7 +1123,17 @@
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 2 * scale;
 
-    ctx.fillStyle = state.color;
+    // إنشاء fillStyle - دعم اللون المتدرج الذهبي
+    if (state.color === 'gold-gradient') {
+      const goldGrad = ctx.createLinearGradient(0, baseY - totalHeight, 0, baseY + (lineHeight * 0.3));
+      goldGrad.addColorStop(0, '#f4d27a');
+      goldGrad.addColorStop(0.35, '#d4a84b');
+      goldGrad.addColorStop(0.65, '#f4d27a');
+      goldGrad.addColorStop(1, '#b8860b');
+      ctx.fillStyle = goldGrad;
+    } else {
+      ctx.fillStyle = state.color;
+    }
 
     lines.forEach((line, i) => {
       ctx.fillText(line, textX, baseY + (i * lineHeight));
