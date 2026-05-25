@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>هيئة حماية المستهلك - مولّد بطاقات التهاني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;500;700;900&family=Reem+Kufi:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&family=Lateef&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #0d4a3f;
+    --primary-dark: #062821;
+    --gold: #d4a84b;
+    --gold-light: #f4d27a;
+    --bg: #f5f1e8;
+    --text: #1a2e2a;
+    --muted: #6b7c75;
+    --border: rgba(13, 74, 63, 0.12);
+    --card: #ffffff;
+  }
+  html, body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(212, 168, 75, 0.08), transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(13, 74, 63, 0.06), transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* Header */
+  header {
+    position: relative;
+    z-index: 2;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    box-shadow: 0 4px 30px rgba(13, 74, 63, 0.15);
+  }
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Aref Ruqaa', serif;
+    font-size: 26px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(212, 168, 75, 0.4);
+  }
+  .brand-text h1 {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .brand-text p {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 2px;
+    font-weight: 300;
+  }
+  .header-badge {
+    padding: 8px 16px;
+    background: rgba(212, 168, 75, 0.15);
+    border: 1px solid rgba(212, 168, 75, 0.4);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+  /* Main Container */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 1024px) {
+    main { grid-template-columns: 1fr; }
+  }
+  /* Side Panel */
+  .panel {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 4px 24px rgba(13, 74, 63, 0.06);
+    border: 1px solid var(--border);
+    height: fit-content;
+    position: sticky;
+    top: 24px;
+  }
+  .panel-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .panel-title::before {
+    content: '';
+    width: 6px;
+    height: 22px;
+    background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 3px;
+  }
+  .panel-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding-right: 16px;
+  }
+  /* Steps */
+  .step {
+    margin-bottom: 22px;
+  }
+  .step-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .step-num {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  /* Upload */
+  .upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(13, 74, 63, 0.02);
+  }
+  .upload-area:hover {
+    border-color: var(--gold);
+    background: rgba(212, 168, 75, 0.04);
+  }
+  .upload-area.has-file {
+    border-color: var(--primary);
+    border-style: solid;
+    background: rgba(13, 74, 63, 0.04);
+  }
+  .upload-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+  .upload-text {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .upload-text strong {
+    color: var(--primary);
+    font-weight: 700;
+  }
+  #file-input { display: none; }
+  .file-name {
+    font-size: 12px;
+    color: var(--primary);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  /* Inputs */
+  .input-field {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: white;
+    transition: all 0.2s;
+    direction: rtl;
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 168, 75, 0.15);
+  }
+  textarea.input-field {
+    min-height: 70px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+  /* Controls Grid */
+  .controls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .control-label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  /* Font Picker */
+  .font-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .font-chip {
+    padding: 10px 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    transition: all 0.2s;
+    color: var(--text);
+  }
+  .font-chip:hover { border-color: var(--gold); }
+  .font-chip.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  .font-chip.f-cairo { font-family: 'Cairo', sans-serif; font-weight: 700; }
+  .font-chip.f-amiri { font-family: 'Amiri', serif; font-weight: 700; }
+  .font-chip.f-reem { font-family: 'Reem Kufi', sans-serif; font-weight: 600; }
+  .font-chip.f-aref { font-family: 'Aref Ruqaa', serif; font-weight: 700; }
+  .font-chip.f-tajawal { font-family: 'Tajawal', sans-serif; font-weight: 700; }
+  .font-chip.f-lateef { font-family: 'Lateef', serif; font-size: 18px; }
+  /* Color swatches */
+  .color-swatches {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .swatch.active {
+    border-color: var(--primary);
+    transform: scale(1.1);
+  }
+  .swatch::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+  }
+  /* Slider */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  input[type="range"] {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(212, 168, 75, 0.4);
+  }
+  .slider-value {
+    min-width: 38px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    background: rgba(13, 74, 63, 0.06);
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  /* Download Button */
+  .download-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(13, 74, 63, 0.25);
+  }
+  .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(13, 74, 63, 0.35);
+  }
+  .download-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .download-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 168, 75, 0.3), transparent);
+    transition: left 0.5s;
+  }
+  .download-btn:hover::before { left: 100%; }
+  /* Preview Area */
+  .preview-section {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 4px 24px rgba(13, 74, 63, 0.06);
+    border: 1px solid var(--border);
+  }
+  .preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-header h2 {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 19px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .preview-header h2::before {
+    content: '';
+    width: 6px;
+    height: 22px;
+    background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 3px;
+  }
+  .preview-tag {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 6px 12px;
+    background: rgba(13, 74, 63, 0.05);
+    border-radius: 100px;
+  }
+  .canvas-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+    background:
+      linear-gradient(135deg, #faf7f0 0%, #f0ebe0 100%);
+    border-radius: 14px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .canvas-wrapper::before,
+  .canvas-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(212, 168, 75, 0.2);
+    border-radius: 50%;
+  }
+  .canvas-wrapper::before { top: -50px; right: -50px; }
+  .canvas-wrapper::after { bottom: -50px; left: -50px; }
+  #canvas {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    box-shadow:
+      0 20px 50px rgba(13, 74, 63, 0.25),
+      0 0 0 1px rgba(0,0,0,0.05);
+    background: white;
+    position: relative;
+    z-index: 1;
+  }
+  .placeholder {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .placeholder-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+  .placeholder h3 {
+    font-family: 'Reem Kufi', sans-serif;
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+  .placeholder p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  /* Info bar */
+  .info-bar {
+    margin-top: 16px;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(212, 168, 75, 0.08) 0%, rgba(13, 74, 63, 0.04) 100%);
+    border-radius: 10px;
+    border-right: 4px solid var(--gold);
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .info-bar strong { color: var(--primary); }
+  /* Position Picker */
+  .position-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .pos-btn {
+    padding: 8px;
+    border: 1.5px solid var(--border);
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .pos-btn:hover { border-color: var(--gold); }
+  .pos-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 20px;
+  }
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--primary);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(13, 74, 63, 0.3);
+    z-index: 1000;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon">ح</div>
+      <div class="brand-text">
+        <h1>هيئة حماية المستهلك</h1>
+        <p>مولّد بطاقات التهاني الرسمية</p>
+      </div>
+    </div>
+    <div class="header-badge">✦ نسخة الموظفين</div>
+  </div>
+</header>
+
+<main>
+  <!-- LEFT PANEL -->
+  <aside class="panel">
+    <h2 class="panel-title">إعدادات البطاقة</h2>
+    <p class="panel-subtitle">اختر التصميم وأضف عبارتك الشخصية</p>
+
+    <!-- Step 1: Upload -->
+    <div class="step">
+      <div class="step-label"><span class="step-num">1</span> اختر التصميم</div>
+      <label for="file-input" class="upload-area" id="upload-area">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-text"><strong>اضغط لرفع التصميم</strong><br>JPG / PNG</div>
+        <div class="file-name" id="file-name"></div>
+      </label>
+      <input type="file" id="file-input" accept="image/*">
+    </div>
+
+    <!-- Step 2: Text -->
+    <div class="step">
+      <div class="step-label"><span class="step-num">2</span> العبارة / الاسم</div>
+      <textarea class="input-field" id="text-input" placeholder="مثال: محمد بن سالم الفارسي&#10;إدارة العلاقات العامة"></textarea>
+    </div>
+
+    <!-- Step 3: Font -->
+    <div class="step">
+      <div class="step-label"><span class="step-num">3</span> نوع الخط</div>
+      <div class="font-options" id="font-options">
+        <div class="font-chip f-cairo active" data-font="Cairo">القاهرة</div>
+        <div class="font-chip f-reem" data-font="Reem Kufi">كوفي</div>
+        <div class="font-chip f-amiri" data-font="Amiri">أميري</div>
+        <div class="font-chip f-aref" data-font="Aref Ruqaa">رقعة</div>
+        <div class="font-chip f-tajawal" data-font="Tajawal">تجوال</div>
+        <div class="font-chip f-lateef" data-font="Lateef">لطيف</div>
+      </div>
+    </div>
+
+    <!-- Step 4: Color & Size -->
+    <div class="step">
+      <div class="step-label"><span class="step-num">4</span> لون النص وحجمه</div>
+      <div style="margin-bottom: 12px;">
+        <span class="control-label">اللون</span>
+        <div class="color-swatches" id="color-swatches">
+          <div class="swatch active" style="background: #d4a84b" data-color="#d4a84b"></div>
+          <div class="swatch" style="background: #ffffff" data-color="#ffffff"></div>
+          <div class="swatch" style="background: #f4d27a" data-color="#f4d27a"></div>
+          <div class="swatch" style="background: #0d4a3f" data-color="#0d4a3f"></div>
+          <div class="swatch" style="background: #1a2e2a" data-color="#1a2e2a"></div>
+          <div class="swatch" style="background: #c9a961" data-color="#c9a961"></div>
+        </div>
+      </div>
+      <div>
+        <span class="control-label">الحجم</span>
+        <div class="slider-row">
+          <input type="range" id="size-slider" min="20" max="80" value="38">
+          <span class="slider-value" id="size-value">38</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5: Position -->
+    <div class="step">
+      <div class="step-label"><span class="step-num">5</span> موقع النص (في الأسفل)</div>
+      <div class="position-grid">
+        <button class="pos-btn" data-pos="right">يمين</button>
+        <button class="pos-btn active" data-pos="center">وسط</button>
+        <button class="pos-btn" data-pos="left">يسار</button>
+      </div>
+      <div style="margin-top: 12px;">
+        <span class="control-label">المسافة من الأسفل</span>
+        <div class="slider-row">
+          <input type="range" id="bottom-slider" min="20" max="200" value="60">
+          <span class="slider-value" id="bottom-value">60</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6: Background -->
+    <div class="step">
+      <div class="step-label"><span class="step-num">6</span> خلفية النص (اختياري)</div>
+      <div class="position-grid">
+        <button class="pos-btn active" data-bg="none">بدون</button>
+        <button class="pos-btn" data-bg="dark">شريط داكن</button>
+        <button class="pos-btn" data-bg="light">شريط فاتح</button>
+      </div>
+    </div>
+
+    <!-- Download -->
+    <button class="download-btn" id="download-btn" disabled>
+      <span>⬇</span>
+      <span>تحميل التصميم النهائي</span>
+    </button>
+
+    <div class="info-bar">
+      <strong>💡 ملاحظة:</strong> النص سيُكتب داخل التصميم في الأسفل. غيّر الإعدادات وشاهد المعاينة مباشرة.
+    </div>
+  </aside>
+
+  <!-- RIGHT: Preview -->
+  <section class="preview-section">
+    <div class="preview-header">
+      <h2>المعاينة المباشرة</h2>
+      <span class="preview-tag" id="preview-tag">في انتظار التصميم</span>
+    </div>
+    <div class="canvas-wrapper">
+      <div class="placeholder" id="placeholder">
+        <div class="placeholder-icon">📋</div>
+        <h3>ابدأ بتحميل تصميم</h3>
+        <p>اختر أحد التصاميم الجاهزة لديك<br>وسيظهر هنا مع إمكانية إضافة اسمك</p>
+      </div>
+      <canvas id="canvas" style="display: none;"></canvas>
+    </div>
+  </section>
+</main>
+
+<div class="footer-note">
+  © هيئة حماية المستهلك — سلطنة عُمان · أداة داخلية لإعداد بطاقات التهاني
+</div>
+
+<div class="toast" id="toast">✓ تم تحميل التصميم بنجاح</div>
+
+<script>
+  // State
+  const state = {
+    image: null,
+    text: '',
+    font: 'Cairo',
+    color: '#d4a84b',
+    size: 38,
+    position: 'center',
+    bottom: 60,
+    bg: 'none'
+  };
+
+  // Elements
+  const fileInput = document.getElementById('file-input');
+  const uploadArea = document.getElementById('upload-area');
+  const fileName = document.getElementById('file-name');
+  const textInput = document.getElementById('text-input');
+  const sizeSlider = document.getElementById('size-slider');
+  const sizeValue = document.getElementById('size-value');
+  const bottomSlider = document.getElementById('bottom-slider');
+  const bottomValue = document.getElementById('bottom-value');
+  const canvas = document.getElementById('canvas');
+  const placeholder = document.getElementById('placeholder');
+  const ctx = canvas.getContext('2d');
+  const downloadBtn = document.getElementById('download-btn');
+  const previewTag = document.getElementById('preview-tag');
+  const toast = document.getElementById('toast');
+
+  // File upload
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        state.image = img;
+        uploadArea.classList.add('has-file');
+        fileName.textContent = '✓ ' + file.name;
+        canvas.style.display = 'block';
+        placeholder.style.display = 'none';
+        previewTag.textContent = img.width + ' × ' + img.height + ' بكسل';
+        downloadBtn.disabled = false;
+        showToast('✓ تم تحميل التصميم');
+        render();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Text
+  textInput.addEventListener('input', (e) => {
+    state.text = e.target.value;
+    render();
+  });
+
+  // Font chips
+  document.querySelectorAll('.font-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.font-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      state.font = chip.dataset.font;
+      render();
+    });
+  });
+
+  // Color swatches
+  document.querySelectorAll('.swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      state.color = sw.dataset.color;
+      render();
+    });
+  });
+
+  // Size slider
+  sizeSlider.addEventListener('input', (e) => {
+    state.size = parseInt(e.target.value);
+    sizeValue.textContent = state.size;
+    render();
+  });
+
+  // Bottom slider
+  bottomSlider.addEventListener('input', (e) => {
+    state.bottom = parseInt(e.target.value);
+    bottomValue.textContent = state.bottom;
+    render();
+  });
+
+  // Position buttons
+  document.querySelectorAll('[data-pos]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-pos]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.position = btn.dataset.pos;
+      render();
+    });
+  });
+
+  // Background buttons
+  document.querySelectorAll('[data-bg]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-bg]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.bg = btn.dataset.bg;
+      render();
+    });
+  });
+
+  // RENDER
+  function render() {
+    if (!state.image) return;
+
+    const img = state.image;
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Draw original image
+    ctx.drawImage(img, 0, 0);
+
+    if (!state.text.trim()) return;
+
+    // Scale factor based on image size (for consistent text)
+    const scale = img.width / 720; // 720 is a reference width
+    const fontSize = state.size * scale;
+    const bottomPos = state.bottom * scale;
+    const padding = 40 * scale;
+
+    // Split text into lines
+    const lines = state.text.split('\n').filter(l => l.trim());
+    const lineHeight = fontSize * 1.4;
+    const totalHeight = lines.length * lineHeight;
+
+    // Calculate Y position (from bottom)
+    const baseY = canvas.height - bottomPos - totalHeight + lineHeight;
+
+    // Calculate X position based on alignment
+    let textX;
+    let textAlign;
+    if (state.position === 'center') {
+      textX = canvas.width / 2;
+      textAlign = 'center';
+    } else if (state.position === 'right') {
+      textX = canvas.width - padding;
+      textAlign = 'right';
+    } else {
+      textX = padding;
+      textAlign = 'left';
+    }
+
+    // Draw background bar if needed
+    if (state.bg !== 'none') {
+      const barPadding = 20 * scale;
+      const barY = baseY - lineHeight + (barPadding / 2);
+      const barHeight = totalHeight + barPadding;
+
+      if (state.bg === 'dark') {
+        const grad = ctx.createLinearGradient(0, barY, 0, barY + barHeight);
+        grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.5)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0.75)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, barY, canvas.width, barHeight + bottomPos);
+      } else if (state.bg === 'light') {
+        const grad = ctx.createLinearGradient(0, barY, 0, barY + barHeight);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        grad.addColorStop(0.3, 'rgba(255, 255, 255, 0.6)');
+        grad.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, barY, canvas.width, barHeight + bottomPos);
+      }
+    }
+
+    // Draw text
+    ctx.font = `700 ${fontSize}px "${state.font}", "Cairo", sans-serif`;
+    ctx.textAlign = textAlign;
+    ctx.textBaseline = 'alphabetic';
+    ctx.direction = 'rtl';
+
+    // Add subtle shadow for readability
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+    ctx.shadowBlur = 8 * scale;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 2 * scale;
+
+    ctx.fillStyle = state.color;
+
+    lines.forEach((line, i) => {
+      ctx.fillText(line, textX, baseY + (i * lineHeight));
+    });
+
+    // Reset shadow
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+  }
+
+  // Download
+  downloadBtn.addEventListener('click', () => {
+    if (!state.image) return;
+    const link = document.createElement('a');
+    const cleanName = (state.text.split('\n')[0] || 'تصميم').trim().replace(/\s+/g, '_').substring(0, 30);
+    link.download = `بطاقة_${cleanName}.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+    showToast('✓ تم تحميل البطاقة بنجاح');
+  });
+
+  // Toast
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  // Drag & drop
+  ['dragenter', 'dragover'].forEach(ev => {
+    uploadArea.addEventListener(ev, (e) => {
+      e.preventDefault();
+      uploadArea.style.borderColor = 'var(--gold)';
+      uploadArea.style.background = 'rgba(212, 168, 75, 0.08)';
+    });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    uploadArea.addEventListener(ev, (e) => {
+      e.preventDefault();
+      uploadArea.style.borderColor = '';
+      uploadArea.style.background = '';
+    });
+  });
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      fileInput.files = e.dataTransfer.files;
+      fileInput.dispatchEvent(new Event('change'));
+    }
+  });
+</script>
+</body>
+</html>
